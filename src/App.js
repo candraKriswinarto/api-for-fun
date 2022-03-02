@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import ButtonFilter from "./components/ButtonFilter";
+import Jumbotron from "./components/Jumbotron";
+import ListApi from "./components/ListApi";
+import useAxios from "./hooks/useAxios";
 
 function App() {
+  const { fetchData, response, loading } = useAxios('entries');
+
+  useEffect(() => {
+    fetchData({ params: { category: 'Animals' } });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Jumbotron fetchData={fetchData} />
+      <div className="container mx-auto max-w-4xl">
+        <ButtonFilter fetchData={fetchData} />
+        <ListApi response={response} loading={loading} />
+      </div>
     </div>
   );
 }
